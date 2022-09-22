@@ -37,3 +37,11 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+inst/report/
+raw/
+*.geojson
+*.tif
+*.csv
+.DS_Store
+figures/figures-integrated
