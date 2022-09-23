@@ -1,0 +1,44 @@
+pipeline:
+  pipeline_id: 103a233e
+  pipeline_type: data
+  creators:
+  - contact_id: 1
+    first_name: David
+    last_name: Beauchesne
+    organization: Universite Laval
+    department: Department of Biology
+    role: Postdoctoral researcher
+    email: david.beauchesne@hotmail.com
+    phone: 1-514-553-4974
+  date_created: '2022-08-29'
+  url: https://github.com/Ecosystem-Assessments/pipedat/blob/main/R/dp_terrestrial_human_footprint_venter-103a233e.R
+  pipeline_bbox:
+  - -142
+  - 40
+  - -45
+  - 90
+  pipeline_bbox_crs: 4326
+description:
+  name: Terrestrial human footprint
+  description: 'Data from: Global terrestrial Human Footprint maps for 1993 and 2009'
+  access_date: '2022-09-22'
+  contacts:
+  - contact_id: 57
+    first_name: Oscar
+    last_name: Venter
+    organization: University of Northern British Columbia
+    department: ''
+    role: Professor
+    email: oscar.venter@unbc.ca
+    phone: ''
+  citekey:
+  - venter2016
+  - venter2016a
+  bbox:
+  - -1.8040094e+07
+  - -7.3630429e+06
+  - 1.8040906e+07
+  - 9.0189571e+06
+  url: https://datadryad.org/stash/dataset/doi:10.5061/dryad.052q5
+  uuid: .na.character
+  availability: open
