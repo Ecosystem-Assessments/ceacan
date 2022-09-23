@@ -2,25 +2,30 @@
 #'
 #' @export
 get_aoi <- function() {
+  on.exit(sf::sf_use_s2(TRUE), add = TRUE)
+  sf::sf_use_s2(FALSE)
+
   # Load canada
-  can <- pipedat:::basemap$can
+  can <- pipedat:::basemap$can |>
+         sf::st_make_valid()
 
   # Load canadian exclusive economic zone 
   uid <- "004b3c51"
   pipedat(uid)
-  eez <- importdat(uid)[[1]]
+  eez <- importdat(uid)[[1]] |>
+         sf::st_make_valid()
+         
+  # -----
+  aoi <- sf::st_union(eez,can)
   
-  # ----
-  on.exit(sf::sf_use_s2(TRUE), add = TRUE)
-  sf::sf_use_s2(FALSE)
-  aoi <- dplyr::bind_rows(can,eez)
-       #   sf::st_union() 
-       #  https://search.r-project.org/CRAN/refmans/smoothr/html/fill_holes.html
-       #   area_thresh <- units::set_units(1000, km^2)
-       # p_dropped <- fill_holes(p, threshold = area_thresh)
-       #        x <- sf::st_intersection(aoi)
+  # -----
+  area_thresh <- units::set_units(100000, km^2)
+  aoi <- smoothr::fill_holes(aoi, threshold = area_thresh) |>
+         sf::st_geometry() |> 
+         sf::st_cast("POLYGON")       
+  aoi <- aoi[1]
+  aoi <- smoothr::fill_holes(aoi, threshold = area_thresh)
   
-
   # Export data
   if (!file.exists("data/data-basemap/")) dir.create("data/data-basemap/")
   sf::st_write(
