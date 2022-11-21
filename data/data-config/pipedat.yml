@@ -1,13 +1,14 @@
 data_workflow:
   parameters: 
     crs: 4326
-    bbox:
-      xmin: -142
-      ymin: 40
-      xmax: -45
-      ymax: 90
+    # bbox:
+      # xmin: -142
+      # ymin: 40
+      # xmax: -45
+      # ymax: 90
   data_pipeline:
     - "4f84f0e3" # Global marine cumulative effects assessment
     - "103a233e" # Terrestrial human footprint
   data_integration:
+    # - "16c0d3ad"
     # - "aba5e90a" # Nighttime Ligths

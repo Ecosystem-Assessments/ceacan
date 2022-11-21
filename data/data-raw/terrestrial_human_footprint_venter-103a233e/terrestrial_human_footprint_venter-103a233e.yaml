@@ -12,16 +12,11 @@ pipeline:
     phone: 1-514-553-4974
   date_created: '2022-08-29'
   url: https://github.com/Ecosystem-Assessments/pipedat/blob/main/R/dp_terrestrial_human_footprint_venter-103a233e.R
-  pipeline_bbox:
-  - -142
-  - 40
-  - -45
-  - 90
   pipeline_bbox_crs: 4326
 description:
   name: Terrestrial human footprint
   description: 'Data from: Global terrestrial Human Footprint maps for 1993 and 2009'
-  access_date: '2022-09-22'
+  access_date: '2022-11-21'
   contacts:
   - contact_id: 57
     first_name: Oscar
