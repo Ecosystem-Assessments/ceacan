@@ -35,15 +35,11 @@ warp_data <- function() {
     # Load data 
     temp <- stars::read_stars(files[i], proxy = TRUE)
     
-    # Transform grid
-    grd <- sf::st_transform(
-      grd, 
-      crs = sf::st_crs(temp)
-    )
-    
     # Warp data 
-    dat <- stars::st_warp(temp, grd) |>
-                sf::st_transform(crs = 4326) 
+    dat <- stars::st_warp(temp, grd)
+    
+    # Mask data 
+    dat <- dat[aoi]
     
     # Log transformation
     dat <- log(dat + 1)
@@ -61,6 +57,7 @@ warp_data <- function() {
       delete_dsn = TRUE
     )
   }
+  
     
     
 
@@ -80,8 +77,21 @@ warp_data <- function() {
   output2 <- "data/data-cumulative_exposure/"
   if(!file.exists(output2)) dir.create(output2, recursive = TRUE)         
   stars::write_stars(cumul, here::here(output2, "cumulative_exposure.tif"))
-  
   dat <- stars::read_stars(here::here(output2, "cumulative_exposure.tif"))
+  dat[[1]][dat[[1]] <= 0] <- NA
+  ras_f2[[1]][ras_f2[[1]] < 0] <- NA # filter
+
+  # Load canada
+  can <- pipedat:::basemap$can |>
+         sf::st_make_valid()
+         
+  out <- "figures/cumulative/" 
+  if(!file.exists(out)) dir.create(out, recursive = TRUE)         
+  png("figures/cumulative/cumulative_exposure.png", res = 400, width = 200, height = 200, units = "mm", pointsize = 24)
+  par(mar = c(0,0,0,0))
   image(dat, col = viridis::viridis(100))
-  plot(dat)
+  plot(st_geometry(aoi), add = TRUE)
+  plot(st_geometry(can), add = TRUE, border = "#000000AA")
+  dev.off()
 }
+
