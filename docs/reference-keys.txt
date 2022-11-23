@@ -1,0 +1,10 @@
+fig:cumstr
+project-description
+methods
+data
+stressors
+terrestrial
+marine
+results
+cumulative-stressors
+references

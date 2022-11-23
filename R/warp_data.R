@@ -17,6 +17,41 @@ warp_data <- function() {
   files <- c(halpern, venter)
   nm <- basename(files) |> tools::file_path_sans_ext()
   
+  # Select stressors to consider 
+  uid <- c(
+    "halpern_cea-4f84f0e3-2013-artisanal_fishing",
+    "halpern_cea-4f84f0e3-2013-demersal_destructive_fishing",
+    "halpern_cea-4f84f0e3-2013-demersal_nondest_high_bycatch",
+    "halpern_cea-4f84f0e3-2013-demersal_nondest_low_bycatch",
+    "halpern_cea-4f84f0e3-2013-inorganic",
+    "halpern_cea-4f84f0e3-2013-invasives",
+    "halpern_cea-4f84f0e3-2013-night_lights",
+    "halpern_cea-4f84f0e3-2013-ocean_acidification",
+    "halpern_cea-4f84f0e3-2013-ocean_pollution",
+    "halpern_cea-4f84f0e3-2013-oil_rigs",
+    "halpern_cea-4f84f0e3-2013-pelagic_high_bycatch",
+    "halpern_cea-4f84f0e3-2013-pelagic_low_bycatch",
+    "halpern_cea-4f84f0e3-2013-plumes_fert",
+    "halpern_cea-4f84f0e3-2013-plumes_pest",
+    "halpern_cea-4f84f0e3-2013-population",
+    "halpern_cea-4f84f0e3-2013-shipping",
+    "halpern_cea-4f84f0e3-2013-slr",
+    "halpern_cea-4f84f0e3-2013-sst",
+    "halpern_cea-4f84f0e3-2013-uv",
+    "terrestrial_human_footprint_venter-103a233e-Built2009",
+    "terrestrial_human_footprint_venter-103a233e-croplands2005",
+    "terrestrial_human_footprint_venter-103a233e-Lights2009",
+    "terrestrial_human_footprint_venter-103a233e-NavWater2009",
+    "terrestrial_human_footprint_venter-103a233e-Pasture2009",
+    "terrestrial_human_footprint_venter-103a233e-Popdensity2010",
+    "terrestrial_human_footprint_venter-103a233e-Railways",
+    "terrestrial_human_footprint_venter-103a233e-Roads"
+  )
+  
+  uid <- nm %in% uid
+  files <- files[uid]
+  nm <- nm[uid]
+  
   # aoi 
   aoi <- sf::st_read("data/data-basemap/aoi.geojson")
   
@@ -57,8 +92,6 @@ warp_data <- function() {
       delete_dsn = TRUE
     )
   }
-  
-    
     
 
   # Cumulative data 
@@ -74,20 +107,20 @@ warp_data <- function() {
            stars::st_redimension() |>
            stars::st_apply(c(1,2), sum, na.rm = TRUE)
            
-  output2 <- "data/data-cumulative_exposure/"
+  output2 <- "data/data-cumulative_stressors/"
   if(!file.exists(output2)) dir.create(output2, recursive = TRUE)         
-  stars::write_stars(cumul, here::here(output2, "cumulative_exposure.tif"))
-  dat <- stars::read_stars(here::here(output2, "cumulative_exposure.tif"))
+  stars::write_stars(cumul, here::here(output2, "cumulative_stressors.tif"))
+  dat <- stars::read_stars(here::here(output2, "cumulative_stressors.tif"))
   dat[[1]][dat[[1]] <= 0] <- NA
-  ras_f2[[1]][ras_f2[[1]] < 0] <- NA # filter
+
 
   # Load canada
   can <- pipedat:::basemap$can |>
          sf::st_make_valid()
          
-  out <- "figures/cumulative/" 
+  out <- "figures/cumulative_stressors/" 
   if(!file.exists(out)) dir.create(out, recursive = TRUE)         
-  png("figures/cumulative/cumulative_exposure.png", res = 400, width = 200, height = 200, units = "mm", pointsize = 24)
+  png("figures/cumulative_stressors/cumulative_stressors.png", res = 400, width = 200, height = 200, units = "mm", pointsize = 24)
   par(mar = c(0,0,0,0))
   image(dat, col = viridis::viridis(100))
   plot(st_geometry(aoi), add = TRUE)

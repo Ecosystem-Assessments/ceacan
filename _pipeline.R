@@ -13,4 +13,13 @@ pipeline <- function() {
   
   # Integrate data 
   pipedat::pipeflow("./data/data-config/pipedat.yml")
+  
+  # Get bibliographies
+  getBib()
+  
+  # Warp data and export cumulative stressors
+  warp_data()
+
+  # Report
+  suppressWarnings(bookdown::render_book("index.Rmd", "bookdown::gitbook"))
 }
