@@ -17,7 +17,7 @@ getBib <- function() {
   ) 
   dat <- do.call("c", dat) |>
     RefManageR::WriteBib(
-    file = "cancea.bib", 
+    file = "ceacan.bib", 
     verbose = FALSE
   )
 }
